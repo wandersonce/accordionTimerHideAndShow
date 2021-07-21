@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hide And Show Timer Accordion</title>
+
+    <style>
+        .headerText {
+            font-size: 1.2rem;
+        }
+        
+        .containerBlock {
+            display: flex;
+            flex-direction: row;
+            margin: 40px 0;
+        }
+        
+        .contentBlock a {
+            cursor: pointer;
+        }
+        
+        .timerBlock {
+            background-color: rgba(128, 134, 140, 0.5);
+            height: auto;
+            width: 3px;
+            margin-left: 10px;
+            margin-right: 20px;
+            position: relative;
+            padding-right: 3px;
+        }
+        
+        .timerColor,
+        .timerColor2,
+        .timerColor3 {
+            position: absolute;
+            top: 0;
+            background-color: #423F3F;
+            width: 100%;
+            height: 0;
+        }
+        
+        .textContent2,
+        .textContent3 {
+            display: none;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="containerBlock">
+        <div class="timerBlock">
+            <div class="timerColor"></div>
+        </div>
+        <div class="contentBlock">
+            <a onclick="callLoop(1)">
+                <p class="headerText">Efficiency</p>
+            </a>
+            <p class="textContent">By incorporating high-efficiency monocrystalline solar panels that contain modular cells, in the event that there are dead zones, cells are easily swapped out. </p>
+        </div>
+    </div>
+    <div class="containerBlock">
+        <div class="timerBlock">
+            <div class="timerColor2"></div>
+        </div>
+        <div class="contentBlock">
+            <a onclick="callLoop(2)">
+                <p class="headerText">Elevation</p>
+            </a>
+            <p class="textContent2">TerraVis utilizes the practicality of the standard pick-up truck while spearheading a revolutionary initiative prioritizing sustainable and renewable energy. </p>
+        </div>
+    </div>
+    <div class="containerBlock">
+        <div class="timerBlock">
+            <div class="timerColor3"></div>
+        </div>
+        <div class="contentBlock">
+            <a onclick="callLoop(3)">
+                <p class="headerText">Expertise</p>
+            </a>
+            <p class="textContent3">Worksport is known for its sustainable, strong tonneau covers, and paired with solar panels, capable of collecting energy from the sun’s rays and storing them in multiple banks. The stored energy can then be used to provide power to an electronic
+                motor or completely removed and used remotely.</p>
+        </div>
+    </div>
+
+    <script>
+        var initialVal = 0; // Used to return to initial value on css
+
+        var i = 1; //  set your counter to 1 
+        var a = 1;
+        var e = 1;
+
+        // Cancel used to control timer and see which one is being used
+        var cancel1 = false;
+        var cancel2 = false;
+        var cancel3 = false;
+
+        //Function called from HTML to cancel current timer and start the clicked one
+        function callLoop(textNumber) {
+            //Setting all initial values to css
+            i = 1;
+            a = 1;
+            e = 1;
+
+            //Hide all texts before show the right one
+            $('.textContent').fadeOut('fast');
+            $('.textContent2').fadeOut('fast');
+            $('.textContent3').fadeOut('fast');
+
+            //Setting cancel variable to true, so we can see that the function was called from the cancel one
+            cancel1 = true;
+            cancel2 = true;
+            cancel3 = true;
+
+            // Checking which text were clicked and taking action based on that
+            if (textNumber == 1) {
+                $('.textContent').fadeIn('fast');
+                myLoop('cancelLoop');
+            } else if (textNumber == 2) {
+                $('.textContent2').fadeIn('fast');
+                myLoop2('cancelLoop');
+            } else if (textNumber == 3) {
+                $('.textContent3').fadeIn('fast');
+                myLoop3('cancelLoop');
+            }
+        }
+
+        function myLoop(fromCancel) { //  create a loop function
+
+            //Checking if the function was called from the cancel Function.
+            if (fromCancel == 'cancelLoop') {
+                cancel1 = false; //setting the right cancel variable to false so it can start run again.
+            }
+
+            if (i == 100) {
+                $('.textContent').fadeOut('fast');
+                $('.textContent2').fadeIn('fast');
+
+                cancel2 = false; //setting the next function cancel variable to false to make sure it runs.
+
+                myLoop2();
+            }
+
+            setTimeout(function() { //  call a  setTimeout when the loop is called
+                $('.timerColor').css('height', i + '%');
+                i++; //  increment the counter
+                if (i < 101) { //  if the counter < 101, call the loop function
+                    if (cancel1) { // If  cancel tag is true will stop the function.
+                        return;
+                    };
+                    myLoop('insideLoop'); //  ..  again which will trigger another 
+                } else {
+                    $('.timerColor').css('height', initialVal);
+                    // $('.textContent').fadeOut('fast');
+                    // $('.textContent2').fadeIn('fast');
+                }
+            }, 40)
+        }
+
+        function myLoop2(fromCancel) { //  create a loop function
+
+            //Checking if the function was called from the cancel Function.
+            if (fromCancel == 'cancelLoop') {
+                cancel2 = false; //setting the right cancel variable to false so it can start run again.
+            }
+
+            if (a == 100) {
+                $('.textContent2').fadeOut('fast');
+                $('.textContent3').fadeIn('fast');
+
+                cancel3 = false; //setting the next function cancel variable to false to make sure it runs.
+
+                myLoop3();
+            }
+            setTimeout(function() { //  call a  setTimeout when the loop is called
+                $('.timerColor2').css('height', a + '%');
+                a++; //  increment the counter
+                if (a < 101) { //  if the counter < 101, call the loop function
+                    if (cancel2) { // If  cancel tag is true will stop the function.
+                        return;
+                    };
+                    myLoop2(); //  ..  again which will trigger another 
+                } else {
+                    $('.timerColor2').css('height', initialVal);
+                    // $('.textContent2').fadeOut('fast');
+                    // $('.textContent3').fadeIn('fast');
+                    a = 1;
+                }
+            }, 40)
+        }
+
+        function myLoop3(fromCancel) { //  create a loop function
+
+            //Checking if the function was called from the cancel Function.
+            if (fromCancel == 'cancelLoop') {
+                cancel3 = false; //setting the right cancel variable to false so it can start run again.
+            }
+
+            if (e == 100) {
+                $('.textContent3').fadeOut('fast');
+                $('.textContent').fadeIn('fast');
+
+                cancel1 = false; //setting the next function cancel variable to false to make sure it runs.
+                i = 1;
+
+                myLoop();
+            }
+            setTimeout(function() { //  call a  setTimeout when the loop is called
+                $('.timerColor3').css('height', e + '%');
+                e++; //  increment the counter
+                if (e < 101) { //  if the counter < 101, call the loop function
+                    if (cancel3) { // If  cancel tag is true will stop the function.
+                        return;
+                    };
+                    myLoop3(); //  ..  again which will trigger another 
+                } else {
+                    $('.timerColor3').css('height', initialVal);
+                    // $('.textContent3').fadeOut('fast');
+                    // $('.textContent').fadeIn('fast');
+                    e = 1;
+                }
+            }, 40)
+        }
+
+        $(document).ready(function() {
+            myLoop('startLoop'); //  start the loop
+        });
+    </script>
+</body>
+
+</html>
